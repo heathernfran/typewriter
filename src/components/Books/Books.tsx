@@ -43,8 +43,7 @@ export function Books() {
   return (
     <>
       <h1 className="text-3xl font-bold">Browse books by subject</h1>
-      <SearchInput handleChange={handleChange} />
-      <button onClick={handleSearch}>Search for books</button>
+      <SearchInput handleChange={handleChange} handleSearch={handleSearch} />
       <div className="grid grid-cols-2">
         {error && <div>Error occurred: {error.message}</div>}
         <SearchResults
