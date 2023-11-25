@@ -1,9 +1,10 @@
-import { useId, useState } from 'react'
+import { useCallback, useId, useState } from 'react'
 import { fetchData } from '../../api'
 import type { Book, Data } from '../../types'
 
 export function Books() {
   const [error, setError] = useState<Error | undefined>()
+  const [favourites, setFavourites] = useState<Book[]>([])
   const [results, setResults] = useState<Book[]>()
   const [search, setSearch] = useState('')
 
@@ -25,15 +26,45 @@ export function Books() {
     }
   }
 
+  const handleAddFavourite = useCallback((newFavourite: Book) => {
+    setFavourites((previousState) => {
+      if (previousState.includes(newFavourite)) {
+        const copiedSelectedItems = previousState
+        return [...copiedSelectedItems.filter((item) => item !== newFavourite)]
+      } else {
+        return [...previousState, newFavourite]
+      }
+    })
+  }, [])
+
   const renderError = () => error && <div>Error occurred: {error.message}</div>
 
   const renderResults = () =>
     results && (
       <ul>
         {results.map((result) => (
-          <li key={result.key}>{result.title}</li>
+          <li key={result.key}>
+            {result.title}
+            <button onClick={() => handleAddFavourite(result)}>
+              {favourites.includes(result)
+                ? `Remove Favourite`
+                : `Add Favourite`}
+            </button>
+          </li>
         ))}
       </ul>
+    )
+
+  const renderFavourites = () =>
+    favourites && (
+      <>
+        <h2>Favourites</h2>
+        <ul>
+          {favourites.map((favourite) => (
+            <li key={favourite.key}>{favourite.title}</li>
+          ))}
+        </ul>
+      </>
     )
 
   return (
@@ -43,6 +74,7 @@ export function Books() {
       <button onClick={handleSearch}>Search for books</button>
       {renderError()}
       {renderResults()}
+      {renderFavourites()}
     </>
   )
 }
