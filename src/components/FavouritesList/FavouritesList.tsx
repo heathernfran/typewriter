@@ -6,8 +6,8 @@ interface Props {
 
 export function FavouritesList({ favourites }: Props) {
   return (
-    <>
-      <h2>Favourites</h2>
+    <div>
+      <h2 className="text-2xl font-bold">Favourites</h2>
       <ul>
         {favourites.map((favourite) => (
           <li key={favourite.key}>
@@ -25,6 +25,6 @@ export function FavouritesList({ favourites }: Props) {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   )
 }
