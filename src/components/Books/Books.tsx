@@ -3,7 +3,7 @@ import { fetchData } from '../../api'
 import type { Book, Data } from '../../types'
 import { FavouritesList } from '../FavouritesList'
 import { SearchInput } from '../SearchInput'
-import { SearchResults } from '../SearchResults/SearchResults'
+import { SearchResults } from '../SearchResults'
 import { useLocalStorage } from '../../hooks/useLocalstorage'
 
 export function Books() {
@@ -28,18 +28,23 @@ export function Books() {
     }
   }
 
-  const handleToggleFavourite = useCallback((newFavourite: Book) => {
-    setFavourites((previousState) => {
-      if (previousState.includes(newFavourite)) {
-        const copiedFavourites = previousState
-        return [
-          ...copiedFavourites.filter((favourite) => favourite !== newFavourite),
-        ]
-      } else {
-        return [...previousState, newFavourite]
-      }
-    })
-  }, [setFavourites])
+  const handleToggleFavourite = useCallback(
+    (newFavourite: Book) => {
+      setFavourites((previousState) => {
+        if (previousState.includes(newFavourite)) {
+          const copiedFavourites = previousState
+          return [
+            ...copiedFavourites.filter(
+              (favourite) => favourite !== newFavourite,
+            ),
+          ]
+        } else {
+          return [...previousState, newFavourite]
+        }
+      })
+    },
+    [setFavourites],
+  )
 
   return (
     <>
