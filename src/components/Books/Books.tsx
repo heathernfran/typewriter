@@ -4,10 +4,11 @@ import type { Book, Data } from '../../types'
 import { FavouritesList } from '../FavouritesList'
 import { SearchInput } from '../SearchInput'
 import { SearchResults } from '../SearchResults/SearchResults'
+import { useLocalStorage } from '../../hooks/useLocalstorage'
 
 export function Books() {
   const [error, setError] = useState<Error | undefined>()
-  const [favourites, setFavourites] = useState<Book[]>([])
+  const [favourites, setFavourites] = useLocalStorage<Book[]>('favourites', [])
   const [results, setResults] = useState<Book[]>([])
   const [search, setSearch] = useState('')
 
@@ -38,7 +39,7 @@ export function Books() {
         return [...previousState, newFavourite]
       }
     })
-  }, [])
+  }, [setFavourites])
 
   return (
     <>
